@@ -1,5 +1,6 @@
 import { Effect, pipe } from "effect";
 import { TaggedError } from "effect/Data";
+import { generateOTP } from "~/adapters/otp/oslo-totp";
 import { ExpectedError, PermissionError } from "~/config/exceptions";
 import { AuthUser } from "~/layers/auth-user";
 import { hashPassword, verifyPassword } from "~/layers/encryption/helpers";
@@ -7,7 +8,6 @@ import { Session } from "~/layers/session";
 import { OtpRepo } from "~/repositories/otp.repository";
 import { UserRepoLayer } from "~/repositories/user.repository";
 import { sendmail } from "./mail.service";
-import { generateOTP } from "./otp/otp.service";
 
 export function logout({ access_token }: { access_token: string }) {
   return Effect.gen(function* (_) {

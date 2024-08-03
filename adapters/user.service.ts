@@ -1,4 +1,5 @@
 import { Effect } from "effect";
+import { generateOTP, verifyOTP } from "~/adapters/otp/oslo-totp";
 import { ExpectedError } from "~/config/exceptions";
 import { hashPassword } from "~/layers/encryption/helpers";
 import { Session } from "~/layers/session";
@@ -7,7 +8,6 @@ import { OtpRepo } from "~/repositories/otp.repository";
 import { UserRepoLayer } from "~/repositories/user.repository";
 import { HashingError } from "./auth.service";
 import { sendmail } from "./mail.service";
-import { generateOTP, verifyOTP } from "./otp/otp.service";
 
 export function createUser(data: NewUser) {
   return Effect.gen(function* (_) {

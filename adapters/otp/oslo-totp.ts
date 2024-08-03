@@ -1,8 +1,7 @@
-import { Config, Effect, Redacted } from "effect";
-import { TaggedError } from "effect/Data";
+import { Config, Effect, Layer, Redacted } from "effect";
 import { TimeSpan } from "oslo";
 import { TOTPController } from "oslo/otp";
-import { base64ToArrayBuffer } from "~/adapters/otp/otp.util";
+import { OTPError, OTPService } from "~/layers/otp";
 
 export const readOTPSecret = Effect.cached(
   Effect.gen(function* () {
@@ -38,16 +37,35 @@ export const verifyOTP = (otp: string) => {
     Effect.flatMap((secret) => {
       return Effect.tryPromise({
         try: () => otpService.verify(otp, secret),
-        catch: () => {
-          return new OTPError("Error verifying OTP");
-        },
+        catch: () => new OTPError("Error verifying OTP"),
       });
     }),
   );
 };
 
-export class OTPError extends TaggedError("OTPError") {
-  constructor(public message: string) {
-    super();
+function arrayBufferToBase64(buffer: ArrayBuffer): string {
+  const uint8Array = new Uint8Array(buffer);
+  let base64String = "";
+
+  for (let i = 0; i < uint8Array.length; i++) {
+    base64String += String.fromCharCode(uint8Array[i]);
   }
+
+  return btoa(base64String);
 }
+
+function base64ToArrayBuffer(base64: string): ArrayBuffer {
+  const binaryString = atob(base64);
+  const byteArray = new Uint8Array(binaryString.length);
+
+  for (let i = 0; i < binaryString.length; i++) {
+    byteArray[i] = binaryString.charCodeAt(i);
+  }
+
+  return byteArray.buffer;
+}
+
+export const OsloTOTP = Layer.succeed(OTPService, {
+  generate: generateOTP,
+  verify: verifyOTP,
+});

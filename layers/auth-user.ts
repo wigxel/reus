@@ -1,7 +1,7 @@
 import { Context, Effect, Layer, pipe } from "effect";
+import { Argon2dHasherLive } from "~/adapters/encryption/argon2d";
 import { LuciaSessionProvider } from "~/adapters/lucia-session-provider";
 import { DatabaseLive } from "~/layers/database";
-import { Argon2dHasherLive } from "~/layers/encryption/presets/argon2d";
 import { UserSessionLive } from "~/layers/session";
 import { notNil } from "~/libs/query.helpers";
 import { OTPRepoLayer } from "~/repositories/otp.repository";

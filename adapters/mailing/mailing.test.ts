@@ -1,5 +1,5 @@
 import { ConfigProvider, Effect, Layer } from "effect";
-import { createTimeBasedEncryption } from "~/layers/encryption/presets/time-based";
+import { createTimeBasedEncryption } from "~/adapters/encryption/time-based";
 
 describe("Time based token", () => {
   it("should add reversible time-based token", () => {
