@@ -1,8 +1,8 @@
 import { safeInt } from "@repo/shared/src/data.helpers";
 import { Context, Layer, Order } from "effect";
-import { FilterImpl } from "~/services/search/filter.service";
+import { FilterImpl } from "~/adapters/search/filter.service";
 
-import type { PaginationQuery } from "~/services/search/primitives";
+import type { PaginationQuery } from "~/adapters/search/primitives";
 
 export const DEFAULT_PAGINATION_LIMIT = 25;
 

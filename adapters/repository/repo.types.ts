@@ -5,6 +5,8 @@ import { Effect } from "effect";
 import { head, isArray } from "effect/Array";
 import type { UnknownException } from "effect/Cause";
 import { isNullable, isNumber, isRecord, isString } from "effect/Predicate";
+import type { FilterOrLogicOperator } from "~/adapters/search/primitives";
+import { SearchOps } from "~/adapters/search/sql-search-resolver";
 import type { DatabaseConnection } from "~/config/database";
 import { QueryError } from "~/config/exceptions";
 import {
@@ -12,8 +14,6 @@ import {
   queryFiltersToWhere,
   runDrizzleQuery,
 } from "~/libs/query.helpers";
-import type { FilterOrLogicOperator } from "~/services/search/primitives";
-import { SearchOps } from "~/services/search/sql-search-resolver";
 import type { FilterQuery, PaginationQuery } from "~/types/types";
 
 type QueryErrors = UnknownException | Error;

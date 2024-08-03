@@ -1,5 +1,8 @@
-import { Effect, Either, pipe } from "effect";
-import { PasswordHasher, PasswordHasherError } from "~/layers/encryption/password-hasher";
+import { Effect, pipe } from "effect";
+import {
+  PasswordHasher,
+  PasswordHasherError,
+} from "~/layers/encryption/password-hasher";
 
 export function hashPassword(value: string) {
   return pipe(
