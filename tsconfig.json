@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "types": ["vitest/globals"],
+    "lib": ["es2022", "DOM", "DOM.Iterable"],
+    "module": "ES2020",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "target": "ESNext",
+    "moduleResolution": "Node",
+    "allowJs": false,
+    "resolveJsonModule": false,
+    "jsx": "preserve",
+    "allowSyntheticDefaultImports": true,
+    "strictNullChecks": true,
+    "paths": {
+      "~/*": ["./*"]
+    }
+  }
+}

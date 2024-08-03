@@ -1,0 +1,27 @@
+{
+  "name": "reus",
+  "version": "1.0.0",
+  "description": "A reusable library for consistent backend",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "format": "biome format --write .",
+    "test": "vitest --run"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@biomejs/biome": "^1.8.3",
+    "@lucia-auth/adapter-prisma": "^4.0.1",
+    "@types/node": "^22.1.0",
+    "date-fns": "^3.6.0",
+    "effect": "^3.6.0",
+    "lucia": "^3.2.0",
+    "oslo": "^1.2.1",
+    "pathe": "^1.1.2",
+    "typescript": "5.5.4",
+    "uncrypto": "^0.1.3",
+    "vitest": "^2.0.5",
+    "zod": "^3.23.8"
+  }
+}
