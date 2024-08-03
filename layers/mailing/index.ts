@@ -1,18 +1,35 @@
-import { Context, type Effect } from "effect";
+import { Config, type ConfigError, Context, Effect } from "effect";
 import { TaggedError } from "effect/Data";
 
-export interface EmailContent extends MailContent {}
+export const MailingConfig = Effect.gen(function* (_) {
+  const MAIL_USER = yield* Config.string("MAIL_USER");
+  const MAIL_PASSWORD = yield* Config.string("MAIL_PASSWORD");
+  const MAIL_HOST = yield* Config.string("MAIL_HOST");
+  const MAIL_PORT = yield* Config.number("MAIL_PORT");
 
-export class MailService extends Context.Tag("MailService")<
-  MailService,
+  return {
+    host: MAIL_HOST,
+    port: MAIL_PORT,
+    user: MAIL_USER,
+    password: MAIL_PASSWORD,
+  };
+});
+
+export class MailTransporter extends Context.Tag("MailTransporter")<
+  MailTransporter,
   MailServiceInterface
 >() {}
 
-interface MailServiceInterface {
+export interface MailServiceInterface {
   send(
     params: MailOptions,
-    content?: EmailContent,
-  ): Effect.Effect<void, MailingError>;
+    content?: MailContent,
+  ): Effect.Effect<void, MailingError | ConfigError.ConfigError>;
+}
+
+export interface MailAddress {
+  name: string;
+  address: string;
 }
 
 export class MailingError extends TaggedError("MailingError") {
@@ -24,12 +41,7 @@ export class MailingError extends TaggedError("MailingError") {
   }
 }
 
-interface MailAddress {
-  name: string;
-  address: string;
-}
-
-interface MailOptions {
+export interface MailOptions {
   /** The e-mail address of the sender. All e-mail addresses can be plain 'sender@server.com' or formatted 'Sender Name <sender@server.com>' */
   from?: string | MailAddress | undefined;
   /** An e-mail address that will appear on the Sender: field */
@@ -48,7 +60,7 @@ interface MailOptions {
   subject?: string | undefined;
 }
 
-interface MailContent {
+export interface MailContent {
   text?: string | Buffer | undefined;
   /** The HTML version of the message */
   html?: string | Buffer | undefined;
