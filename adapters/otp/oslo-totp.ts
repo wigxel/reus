@@ -1,6 +1,7 @@
 import { Config, Effect, Layer, Redacted } from "effect";
 import { TimeSpan } from "oslo";
 import { TOTPController } from "oslo/otp";
+import { base64ToArrayBuffer } from "~/adapters/utils";
 import { OTPError, OTPService } from "~/layers/otp";
 
 export const readOTPSecret = Effect.cached(
@@ -42,28 +43,6 @@ export const verifyOTP = (otp: string) => {
     }),
   );
 };
-
-function arrayBufferToBase64(buffer: ArrayBuffer): string {
-  const uint8Array = new Uint8Array(buffer);
-  let base64String = "";
-
-  for (let i = 0; i < uint8Array.length; i++) {
-    base64String += String.fromCharCode(uint8Array[i]);
-  }
-
-  return btoa(base64String);
-}
-
-function base64ToArrayBuffer(base64: string): ArrayBuffer {
-  const binaryString = atob(base64);
-  const byteArray = new Uint8Array(binaryString.length);
-
-  for (let i = 0; i < binaryString.length; i++) {
-    byteArray[i] = binaryString.charCodeAt(i);
-  }
-
-  return byteArray.buffer;
-}
 
 export const OsloTOTP = Layer.succeed(OTPService, {
   generate: generateOTP,
