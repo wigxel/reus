@@ -1,5 +1,5 @@
 import { ConfigProvider, Effect, Layer } from "effect";
-import { createReversibleHash } from "~/adapters/encryption/reversible-hasher";
+import { createReversibleHash } from "~/adapters/encryption/aes-algo";
 import { TimeBasedToken } from "~/adapters/encryption/time-based";
 
 describe("Time based token", () => {
