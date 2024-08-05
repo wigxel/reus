@@ -2,7 +2,7 @@ import { Effect } from "effect";
 import { generateOTP, verifyOTP } from "~/adapters/otp/oslo-totp";
 import { ExpectedError } from "~/config/exceptions";
 import { hashPassword } from "~/layers/encryption/helpers";
-import { Session } from "~/layers/session";
+import { Session } from "~/layers/session_";
 import type { NewUser } from "~/migrations/schema";
 import { OtpRepo } from "~/repositories/otp.repository";
 import { UserRepoLayer } from "~/repositories/user.repository";

@@ -4,7 +4,7 @@ import { generateOTP } from "~/adapters/otp/oslo-totp";
 import { ExpectedError, PermissionError } from "~/config/exceptions";
 import { AuthUser } from "~/layers/auth-user";
 import { hashPassword, verifyPassword } from "~/layers/encryption/helpers";
-import { Session } from "~/layers/session";
+import { Session } from "~/layers/session_";
 import { OtpRepo } from "~/repositories/otp.repository";
 import { UserRepoLayer } from "~/repositories/user.repository";
 import { sendmail } from "./mail.service";

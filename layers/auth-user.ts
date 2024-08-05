@@ -1,8 +1,8 @@
 import { Context, Effect, Layer, pipe } from "effect";
+import { DatabaseLive } from "~/adapters/database/drizzle";
 import { Argon2dHasherLive } from "~/adapters/encryption/argon2d";
-import { LuciaSessionProvider } from "~/adapters/lucia-session-provider";
-import { DatabaseLive } from "~/layers/database";
-import { UserSessionLive } from "~/layers/session";
+import { UserSessionLive } from "~/adapters/session";
+import { LuciaSessionProvider } from "~/adapters/session-provider/lucia-session-provider";
 import { notNil } from "~/libs/query.helpers";
 import { OTPRepoLayer } from "~/repositories/otp.repository";
 import { UserRepo, UserRepoLayer } from "~/repositories/user.repository";
