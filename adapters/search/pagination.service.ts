@@ -1,12 +1,11 @@
-import { safeInt } from "@repo/shared/src/data.helpers";
-import { Context, Layer, Order } from "effect";
+import { Layer, Order } from "effect";
 import { FilterImpl } from "~/adapters/search/filter.service";
-
-import type { PaginationQuery } from "~/adapters/search/primitives";
+import { safeInt } from "~/adapters/utils";
+import { PaginationService } from "~/layers/search/pagination";
 
 export const DEFAULT_PAGINATION_LIMIT = 25;
 
-export function Pagination(
+function Pagination(
   data?: { limit: number; page: number } | Record<string, unknown>,
 ) {
   const clamp = Order.clamp(Order.number);
@@ -20,7 +19,7 @@ export function Pagination(
   });
 
   return {
-    get query(): PaginationQuery {
+    get query() {
       return {
         pageSize,
         pageNumber: page_count - 1,
@@ -28,17 +27,13 @@ export function Pagination(
     },
     get meta() {
       return {
-        current_page: page_count,
-        per_page: pageSize,
+        currentPage: page_count,
+        perPage: pageSize,
+        total: undefined,
       };
     },
   };
 }
-
-export class PaginationService extends Context.Tag("PaginationService")<
-  PaginationService,
-  ReturnType<typeof Pagination>
->() {}
 
 export const PaginationImpl = (query?: Record<string, unknown>) =>
   Layer.succeed(PaginationService, Pagination(query));

@@ -19,3 +19,9 @@ export function base64ToArrayBuffer(base64: string): ArrayBuffer {
 
   return byteArray.buffer;
 }
+
+export function safeInt(num: unknown, fallback = 0): number {
+  const value = Number.parseInt(num as string);
+
+  return !Object.is(Number.NaN, value) ? value : fallback;
+}

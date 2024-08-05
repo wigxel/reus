@@ -6,10 +6,7 @@ import {
   PaginationImpl,
   PaginationService,
 } from "~/adapters/search/pagination.service";
-import type {
-  FilterQuery,
-  PaginationQuery,
-} from "~/adapters/search/primitives";
+import type { FilterQuery, PaginationQuery } from "~/layers/search/primitives";
 
 interface QueryRepo extends LegacySearchableRepo {}
 

@@ -3,7 +3,7 @@ import type {
   FilterOrLogicOperator,
   LogicOperator,
   Operation,
-} from "./primitives";
+} from "~/layers/search/primitives";
 
 export interface WhereOperationResolver<T, TField> {
   eq: (field: TField, value: unknown) => T | undefined;

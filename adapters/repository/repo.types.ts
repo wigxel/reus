@@ -5,10 +5,10 @@ import { Effect } from "effect";
 import { head, isArray } from "effect/Array";
 import type { UnknownException } from "effect/Cause";
 import { isNullable, isNumber, isRecord, isString } from "effect/Predicate";
-import type { FilterOrLogicOperator } from "~/adapters/search/primitives";
 import { SearchOps } from "~/adapters/search/sql-search-resolver";
 import type { DatabaseConnection } from "~/config/database";
 import { QueryError } from "~/config/exceptions";
+import type { FilterOrLogicOperator } from "~/layers/search/primitives";
 import {
   countWhere,
   queryFiltersToWhere,
