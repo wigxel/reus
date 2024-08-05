@@ -1,6 +1,7 @@
 import { Context, Layer } from "effect";
 import { isEmpty } from "effect/String";
 
+/** @deprecated use the collection filter instead **/
 export class SearchFilter extends Context.Tag("SearchFilter")<
   SearchFilter,
   { search: string }

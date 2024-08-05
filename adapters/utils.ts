@@ -1,3 +1,5 @@
+import { isObject } from "effect/Predicate";
+
 export function arrayBufferToBase64(buffer: ArrayBuffer): string {
   const uint8Array = new Uint8Array(buffer);
   let base64String = "";
@@ -25,3 +27,12 @@ export function safeInt(num: unknown, fallback = 0): number {
 
   return !Object.is(Number.NaN, value) ? value : fallback;
 }
+
+const EmptyObject: Record<string, never> = Object.freeze({});
+
+export const safeObj = <T>(
+  obj: T,
+): T extends Record<string, unknown> ? T : typeof EmptyObject => {
+  // @ts-expect-error;
+  return isObject(Object, obj) ? obj : EmptyObject;
+};
