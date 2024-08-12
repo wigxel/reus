@@ -1,6 +1,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/node,git
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,git
 /.idea
+.DS_Store
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:
