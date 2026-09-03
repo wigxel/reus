@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "types": ["vitest/globals", "node"],
     "lib": ["es2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
@@ -14,10 +13,7 @@
     "resolveJsonModule": true,
     "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "paths": {
-      "~/*": ["./*"]
-    }
+    "esModuleInterop": true
   },
   "include": [
     "contexts/**/*",

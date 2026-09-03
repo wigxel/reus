@@ -1,14 +1,14 @@
 import { Cause, Effect } from "effect";
-import { ExpectedError, PermissionError } from "~/config/exceptions";
+import { ExpectedError, PermissionError } from "config/exceptions";
 import type {
   Comment,
   NewComments,
   NewReview,
   Review,
-} from "~/migrations/schema";
-import { CommentRepo } from "~/repositories/comment.repository";
-import { ProductRepo } from "~/repositories/product.repository";
-import { ReviewRepo } from "~/repositories/review.repository";
+} from "migrations/schema";
+import { CommentRepo } from "repositories/comment.repository";
+import { ProductRepo } from "repositories/product.repository";
+import { ReviewRepo } from "repositories/review.repository";
 
 export function readReviews(filters: Partial<Review> = {}) {
   return Effect.gen(function* () {

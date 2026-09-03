@@ -1,16 +1,16 @@
 import { Effect } from "effect";
 import type { z } from "zod";
-import { ExpectedError, PermissionError } from "~/config/exceptions";
+import { ExpectedError, PermissionError } from "config/exceptions";
 import type {
   TProductStatusToggle,
   createProductDto,
   productSearchDto,
-} from "~/dto/product.dto";
-import type { Product, ProductLocation } from "~/migrations/schema";
-import { CategoryRepo } from "~/repositories/category.repo";
-import { ProductLocationRepoLayer } from "~/repositories/location.repository";
-import { ProductRepoLayer } from "~/repositories/product.repository";
-import { ProductImageRepoLayer } from "~/repositories/productImage.repository";
+} from "dto/product.dto";
+import type { Product, ProductLocation } from "migrations/schema";
+import { CategoryRepo } from "repositories/category.repo";
+import { ProductLocationRepoLayer } from "repositories/location.repository";
+import { ProductRepoLayer } from "repositories/product.repository";
+import { ProductImageRepoLayer } from "repositories/productImage.repository";
 import { PaginationService } from "./pagination.service";
 
 export const createProduct = (

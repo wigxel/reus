@@ -1,6 +1,6 @@
 import { Config, Effect, Layer, Redacted } from "effect";
 import { createOTP } from "@better-auth/utils/otp";
-import { OTPError, OTPService } from "~/contexts/otp";
+import { OTPError, OTPService } from "../../contexts/otp";
 
 export const readOTPSecret = Effect.cached(
   Effect.gen(function* () {

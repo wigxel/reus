@@ -1,12 +1,12 @@
 import { Effect, pipe } from "effect";
 import { TaggedError } from "effect/Data";
-import { AuthUser } from "~/adapters/auth-user";
-import { generateOTP } from "~/adapters/otp/better-auth-otp";
-import { ExpectedError, PermissionError } from "~/config/exceptions";
-import { hashPassword, verifyPassword } from "~/contexts/encryption/helpers";
-import { Session } from "~/adapters/session";
-import { OtpRepo } from "~/repositories/otp.repository";
-import { UserRepoLayer } from "~/repositories/user.repository";
+import { AuthUser } from "./auth-user";
+import { generateOTP } from "./otp/better-auth-otp";
+import { ExpectedError, PermissionError } from "config/exceptions";
+import { hashPassword, verifyPassword } from "../contexts/encryption/helpers";
+import { Session } from "./session";
+import { OtpRepo } from "repositories/otp.repository";
+import { UserRepoLayer } from "repositories/user.repository";
 import { sendmail } from "./mail.service";
 
 export function logout({ access_token }: { access_token: string }) {

@@ -1,6 +1,6 @@
 import { ConfigProvider, Effect, Layer } from "effect";
-import { createReversibleHash } from "~/adapters/encryption/aes-algo";
-import { TimeBasedToken } from "~/adapters/encryption/time-based";
+import { createReversibleHash } from "./aes-algo";
+import { TimeBasedToken } from "./time-based";
 
 const config = ConfigProvider.fromUnknown({
   ENCRYPTION_JWK: `{"key_ops":["decrypt","encrypt"],"ext":true,"kty":"oct","k":"swnbYyH2_3LohW0Bro4Ytg","alg":"A128GCM"}`,

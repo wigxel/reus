@@ -1,6 +1,6 @@
 import { Effect } from "effect";
-import type { User } from "~/migrations/schema";
-import { UserRepo, UserRepoLayer } from "~/repositories/user.repository";
+import type { User } from "migrations/schema";
+import { UserRepo, UserRepoLayer } from "repositories/user.repository";
 import { uploadToCloudinary } from "./file-upload.service";
 
 export const getProfile = (userId: string) => {

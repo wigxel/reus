@@ -1,5 +1,5 @@
 import { Context } from "effect";
-import type { FilterOrLogicOperator } from "~/contexts/search/primitives";
+import type { FilterOrLogicOperator } from "./primitives";
 
 export class CollectionFilters extends Context.Service<
   CollectionFilters,

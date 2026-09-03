@@ -1,6 +1,6 @@
 import { Config, Console, Effect } from "effect";
 import nodemailer from "nodemailer";
-import type { SendMailRaw } from "~/types/types";
+import type { SendMailRaw } from "types/types";
 
 const MailConfig = Effect.gen(function* () {
   const host = yield* Config.string("MAIL_HOST");

@@ -1,12 +1,12 @@
 import { Cause, Context, Effect, Layer, pipe } from "effect";
-import type { DatabaseConnection } from "~/config/database";
+import type { DatabaseConnection } from "config/database";
 import {
   type SessionInfo,
   SessionProvider,
   type SessionUser,
-} from "~/contexts/session-provider";
-import { runDrizzleQuery } from "~/libs/query.helpers";
-import type { User } from "~/migrations/schema";
+} from "../contexts/session-provider";
+import { runDrizzleQuery } from "libs/query.helpers";
+import type { User } from "migrations/schema";
 
 type SessionError = Cause.UnknownError | Error;
 

@@ -2,7 +2,7 @@ import { Effect, pipe } from "effect";
 import {
   PasswordHasher,
   PasswordHasherError,
-} from "~/contexts/encryption/password-hasher";
+} from "./password-hasher";
 
 export function hashPassword(value: string) {
   return pipe(

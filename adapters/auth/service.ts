@@ -1,7 +1,7 @@
 import { Effect, Layer, pipe } from "effect";
-import { getAdminByEmailQuery } from "~/app/repository/admin.repo";
-import { findUserQuery } from "~/app/repository/user.repo";
-import { notNil, tryQuery } from "~/utils/query.helpers";
+import { getAdminByEmailQuery } from "app/repository/admin.repo";
+import { findUserQuery } from "app/repository/user.repo";
+import { notNil, tryQuery } from "utils/query.helpers";
 import { AuthUserCtx } from "./ctx";
 
 const CustomerLive = Layer.succeed(

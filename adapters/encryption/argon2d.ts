@@ -6,7 +6,7 @@ import {
 import {
   PasswordHasher,
   PasswordHasherError,
-} from "~/contexts/encryption/password-hasher";
+} from "../../contexts/encryption/password-hasher";
 
 function hashPassword(password: string) {
   return Effect.promise(() => betterHash(password));

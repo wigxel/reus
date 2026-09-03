@@ -3,7 +3,7 @@ import {
   generateOTP,
   verifyOTP,
   readOTPSecret,
-} from "~/adapters/otp/better-auth-otp";
+} from "./better-auth-otp";
 
 const testSecret = "JBSWY3DPEHPK3PXP"; // base32, 16 chars
 const config = ConfigProvider.fromUnknown({ OTP_SECRET: testSecret });

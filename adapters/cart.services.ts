@@ -1,24 +1,24 @@
 import { Effect } from "effect";
 import { randomUUID } from "uncrypto";
 import type { z } from "zod";
-import { ExpectedError } from "~/config/exceptions";
-import type { authCheckoutSchema, checkoutSchema } from "~/dto/checkout.dto";
-import type { Product } from "~/migrations/schema";
-import { CartRepoLayer } from "~/repositories/cart.repository";
-import { CartItemsRepoLayer } from "~/repositories/cartItems.repository";
-import { OrderRepoLayer } from "~/repositories/order.repository";
-import { OrderItemsRepoLayer } from "~/repositories/orderItems.repository";
+import { ExpectedError } from "config/exceptions";
+import type { authCheckoutSchema, checkoutSchema } from "dto/checkout.dto";
+import type { Product } from "migrations/schema";
+import { CartRepoLayer } from "repositories/cart.repository";
+import { CartItemsRepoLayer } from "repositories/cartItems.repository";
+import { OrderRepoLayer } from "repositories/order.repository";
+import { OrderItemsRepoLayer } from "repositories/orderItems.repository";
 
-import { PaymentOrderRepoLayer } from "~/repositories/payment-order.repo";
-import { PaymentRepoLayer } from "~/repositories/payment.repository";
-import { ProductRepoLayer } from "~/repositories/product.repository";
-import { UserRepoLayer } from "~/repositories/user.repository";
+import { PaymentOrderRepoLayer } from "repositories/payment-order.repo";
+import { PaymentRepoLayer } from "repositories/payment.repository";
+import { ProductRepoLayer } from "repositories/product.repository";
+import { UserRepoLayer } from "repositories/user.repository";
 import {
   CartItemFactory,
   type TcartItems,
   calculateTotalSubprices,
   groupCartItemsBySellerId,
-} from "~/utils/cart.util";
+} from "utils/cart.util";
 import { sendmail } from "./mail.service";
 import { createUser } from "./user.service";
 
