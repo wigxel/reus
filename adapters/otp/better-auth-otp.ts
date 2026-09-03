@@ -25,7 +25,11 @@ export const verifyOTP = (otp: string) =>
       Effect.tryPromise({
         try: () => createOTP(secret, { digits: 6, period: 30 }).verify(otp),
         catch: () => new OTPError("Error verifying OTP"),
-      }).pipe(Effect.flatMap((ok) => (ok ? Effect.succeed(true) : Effect.fail(new OTPError("Invalid OTP"))))),
+      }).pipe(
+        Effect.flatMap((ok) =>
+          ok ? Effect.succeed(true) : Effect.fail(new OTPError("Invalid OTP")),
+        ),
+      ),
     ),
   );
 

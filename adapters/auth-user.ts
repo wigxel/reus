@@ -6,8 +6,9 @@ import { notNil } from "~/libs/query.helpers";
 import { OTPRepoLayer } from "~/repositories/otp.repository";
 import { UserRepo, UserRepoLayer } from "~/repositories/user.repository";
 
-export class AuthUser extends Context.Service<AuthUser,
-  AuthUserService>()("AuthUser") {}
+export class AuthUser extends Context.Service<AuthUser, AuthUserService>()(
+  "AuthUser",
+) {}
 
 export class AuthUserService {
   getUserRecord({ email }: { email: string }) {

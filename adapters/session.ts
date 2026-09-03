@@ -11,15 +11,23 @@ import type { User } from "~/migrations/schema";
 type SessionError = Cause.UnknownError | Error;
 
 export interface SessionImpl {
-  getUser(user: { id: string }): Effect.Effect<User | null, SessionError, DatabaseConnection>;
+  getUser(user: { id: string }): Effect.Effect<
+    User | null,
+    SessionError,
+    DatabaseConnection
+  >;
 
-  create(user_id: string): Effect.Effect<
+  create(
+    user_id: string,
+  ): Effect.Effect<
     { session_id: string; expires_at: Date },
     Cause.UnknownError | Cause.NoSuchElementError,
     SessionProvider
   >;
 
-  validate(token: string): Effect.Effect<
+  validate(
+    token: string,
+  ): Effect.Effect<
     { session: SessionInfo; user: SessionUser },
     Cause.UnknownError | Cause.NoSuchElementError,
     SessionProvider
@@ -28,7 +36,9 @@ export interface SessionImpl {
   invalidate(token: string): Effect.Effect<void, never, SessionProvider>;
 }
 
-export class Session extends Context.Service<Session, SessionImpl>()("Session") {}
+export class Session extends Context.Service<Session, SessionImpl>()(
+  "Session",
+) {}
 
 //user session implementation
 const UserLive: SessionImpl = {

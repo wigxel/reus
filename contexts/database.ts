@@ -33,7 +33,11 @@ export class DatabaseScope extends TaggedError("DatabaseResourceError") {
 }
 
 export function createDatabaseResource<TClient>() {
-  return <T extends DatabaseResourceInterface<TClient>, E extends ConfigError, R>(
+  return <
+    T extends DatabaseResourceInterface<TClient>,
+    E extends ConfigError,
+    R,
+  >(
     effect: Effect.Effect<T, E, R>,
   ) => {
     const acquire = Effect.gen(function* () {
@@ -51,7 +55,9 @@ export function createDatabaseResource<TClient>() {
       return Effect.promise(() => res.close()).pipe(
         Effect.tap(() => Effect.logDebug("[Database] connection closed 🚫")),
         Effect.tapError((err: unknown) =>
-          Effect.logDebug(`[Database] Error closing connection ❌. Reason: ${String(err)}`),
+          Effect.logDebug(
+            `[Database] Error closing connection ❌. Reason: ${String(err)}`,
+          ),
         ),
       );
     };

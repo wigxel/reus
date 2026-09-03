@@ -6,7 +6,9 @@ describe("Argon2d PasswordHasher (scrypt via @better-auth/utils)", () => {
   it("should hash and verify same password", async () => {
     const result = await Effect.runPromise(
       Effect.provide(
-        hashPassword("some_user_password").pipe(Effect.flatMap((h) => verifyPassword("some_user_password", h))),
+        hashPassword("some_user_password").pipe(
+          Effect.flatMap((h) => verifyPassword("some_user_password", h)),
+        ),
         Argon2dHasherLive,
       ),
     );
@@ -17,7 +19,9 @@ describe("Argon2d PasswordHasher (scrypt via @better-auth/utils)", () => {
     await expect(
       Effect.runPromise(
         Effect.provide(
-          hashPassword("some_user_password").pipe(Effect.flatMap((h) => verifyPassword("wrong_password", h))),
+          hashPassword("some_user_password").pipe(
+            Effect.flatMap((h) => verifyPassword("wrong_password", h)),
+          ),
           Argon2dHasherLive,
         ),
       ),
@@ -32,8 +36,12 @@ describe("Argon2d PasswordHasher (scrypt via @better-auth/utils)", () => {
       ),
     );
     expect(h1).not.toBe(h2);
-    const ok1 = await Effect.runPromise(Effect.provide(verifyPassword("same", h1), Argon2dHasherLive));
-    const ok2 = await Effect.runPromise(Effect.provide(verifyPassword("same", h2), Argon2dHasherLive));
+    const ok1 = await Effect.runPromise(
+      Effect.provide(verifyPassword("same", h1), Argon2dHasherLive),
+    );
+    const ok2 = await Effect.runPromise(
+      Effect.provide(verifyPassword("same", h2), Argon2dHasherLive),
+    );
     expect(ok1).toBe("Password verification successful");
     expect(ok2).toBe("Password verification successful");
   });

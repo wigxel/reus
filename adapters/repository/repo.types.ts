@@ -126,7 +126,9 @@ export function createRepoHelpers<T extends TableConfig>(
       }
 
       if (isObject(arg1)) {
-        return Object.keys(arg1).map((key) => SearchOps.eq(key, (arg1 as Record<string, unknown>)[key]));
+        return Object.keys(arg1).map((key) =>
+          SearchOps.eq(key, (arg1 as Record<string, unknown>)[key]),
+        );
       }
 
       return [];
@@ -178,12 +180,10 @@ export function createRepoHelpers<T extends TableConfig>(
     data: typeof table.$inferInsert | Array<typeof table.$inferInsert>,
   ) {
     return runDrizzleQuery((client: any) => {
-      return (
-        client
-          .insert(table)
-          .values(Array.isArray(data) ? data : [data])
-          .returning()
-      );
+      return client
+        .insert(table)
+        .values(Array.isArray(data) ? data : [data])
+        .returning();
     });
   }
 

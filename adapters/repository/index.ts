@@ -18,7 +18,7 @@ export function searchRepo<TRepo extends RepoModel, A, E, R>(
   type ResolvedValue = InferResult<TRepo["find"]>;
 
   return Effect.gen(function* () {
-    const pagination = yield*(PaginationService);
+    const pagination = yield* PaginationService;
 
     yield* Effect.logDebug(
       `searchByQuery:: Cursor(${pagination.query.pageNumber}), Limit(${pagination.query.pageSize})`,

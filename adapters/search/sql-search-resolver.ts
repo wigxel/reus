@@ -33,7 +33,9 @@ export function buildWhereQueryFilterResolver<T, B>(
   resolvers: WhereHelpers<T, B>,
   op: WhereOperationResolver<T, NonNullable<B>>,
 ) {
-  function processFilters(filters: Array<FilterOrLogicOperator>): Array<T | undefined> {
+  function processFilters(
+    filters: Array<FilterOrLogicOperator>,
+  ): Array<T | undefined> {
     try {
       return filters.map((filter) => {
         if (!filter) return resolvers.empty();
@@ -94,9 +96,9 @@ export function buildWhereQueryFilterResolver<T, B>(
 
 const handleOperation =
   <TValue>(operation: Operation) =>
-    (field: string, value: TValue): FilterOrLogicOperator => {
-      return { kind: "FILTER", field, operation, value };
-    };
+  (field: string, value: TValue): FilterOrLogicOperator => {
+    return { kind: "FILTER", field, operation, value };
+  };
 
 export const SearchOps = {
   eq: handleOperation("eq"),
@@ -153,7 +155,6 @@ export const SearchPredicate = {
   fieldMatches: (field: string) =>
     SearchPredicate.filterMatches((e) => e.field === field),
 };
-
 
 export function objectToSearchOps(object: Record<string, string>) {
   return Object.entries(safeObj(object)).map(([column, newValue]) =>

@@ -4,7 +4,10 @@ import type { LegacySearchableRepo } from "~/adapters/repository/repo.types";
 import { FilterImpl, SearchFilter } from "~/adapters/search/filter.service";
 import { PaginationImpl } from "~/adapters/search/pagination.service";
 import { PaginationService } from "~/contexts/search/pagination";
-import type { FilterQuery, PaginationQuery } from "~/contexts/search/primitives";
+import type {
+  FilterQuery,
+  PaginationQuery,
+} from "~/contexts/search/primitives";
 
 interface QueryRepo extends LegacySearchableRepo {}
 
@@ -21,8 +24,8 @@ export function searchByRepoWhere<TRepo extends QueryRepo, A, E, R>(
   type ResolvedValue = InferResult<TRepo["searchByQuery"]>;
 
   return Effect.gen(function* () {
-    const filter = yield*(SearchFilter);
-    const pagination = yield*(PaginationService);
+    const filter = yield* SearchFilter;
+    const pagination = yield* PaginationService;
 
     yield* Effect.logDebug(
       `searchByQuery:: Search(${filter.search}), Cursor(${pagination.query.pageNumber}), Limit(${pagination.query.pageSize})`,

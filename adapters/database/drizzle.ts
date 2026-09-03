@@ -26,8 +26,10 @@ const setupClient = Config.string("DB_URL").pipe(
   }),
 );
 
-export class DrizzleDBConnection extends Context.Service<DrizzleDBConnection,
-  DrizzleClient>()(DatabaseConnectionTypeId) {}
+export class DrizzleDBConnection extends Context.Service<
+  DrizzleDBConnection,
+  DrizzleClient
+>()(DatabaseConnectionTypeId) {}
 
 export const DrizzleDatabaseResource =
   createDatabaseResource<DrizzleClient>()(setupClient);

@@ -1,6 +1,10 @@
 import { Effect, Layer } from "effect";
 import nodemailer from "nodemailer";
-import { MailTransporter, MailingConfig, MailingError } from "~/contexts/mailing";
+import {
+  MailTransporter,
+  MailingConfig,
+  MailingError,
+} from "~/contexts/mailing";
 
 export const NodeMailerTransporter = Layer.succeed(MailTransporter, {
   send(params, content) {

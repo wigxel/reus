@@ -16,11 +16,16 @@ export const MailingConfig = Effect.gen(function* () {
   };
 });
 
-export class MailTransporter extends Context.Service<MailTransporter,
-  MailServiceInterface>()("MailTransporter") {}
+export class MailTransporter extends Context.Service<
+  MailTransporter,
+  MailServiceInterface
+>()("MailTransporter") {}
 
 export interface MailServiceInterface {
-  send(params: MailOptions, content?: MailContent): Effect.Effect<void, MailingError | ConfigError>;
+  send(
+    params: MailOptions,
+    content?: MailContent,
+  ): Effect.Effect<void, MailingError | ConfigError>;
 }
 
 export interface MailAddress {

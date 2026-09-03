@@ -9,5 +9,6 @@ interface AuthUserImpl {
   >;
 }
 
-export class AuthUserCtx extends Context.Service<AuthUserCtx,
-  AuthUserImpl>()("AuthUser") {}
+export class AuthUserCtx extends Context.Service<AuthUserCtx, AuthUserImpl>()(
+  "AuthUser",
+) {}

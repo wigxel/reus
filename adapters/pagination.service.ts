@@ -36,8 +36,10 @@ export function Pagination(
   };
 }
 
-export class PaginationService extends Context.Service<PaginationService,
-  ReturnType<typeof Pagination>>()("PaginationService") {}
+export class PaginationService extends Context.Service<
+  PaginationService,
+  ReturnType<typeof Pagination>
+>()("PaginationService") {}
 
 export const PaginationImpl = (query?: Record<string, unknown>) =>
   Layer.succeed(PaginationService, Pagination(query));

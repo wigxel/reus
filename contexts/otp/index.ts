@@ -9,8 +9,9 @@ export interface OTPInterface {
   verify(otp: string): Effect.Effect<boolean, PossibleErrors, never>;
 }
 
-export class OTPService extends Context.Service<OTPService,
-  OTPInterface>()("OTPService") {}
+export class OTPService extends Context.Service<OTPService, OTPInterface>()(
+  "OTPService",
+) {}
 
 export class OTPError extends TaggedError("OTPError") {
   constructor(public message: string) {

@@ -12,12 +12,16 @@ export interface SessionInfo {
 }
 
 export type SessionProviderImpl = {
-  createSession(user_id: string): Effect.Effect<
+  createSession(
+    user_id: string,
+  ): Effect.Effect<
     { session_id: string; expires_at: Date },
     Cause.UnknownError
   >;
 
-  validateSession(session_id: string): Effect.Effect<
+  validateSession(
+    session_id: string,
+  ): Effect.Effect<
     { user: SessionUser; session: SessionInfo },
     Cause.UnknownError | Cause.NoSuchElementError
   >;
@@ -27,5 +31,7 @@ export type SessionProviderImpl = {
   invalidateUserSessions(user_id: string): Effect.Effect<void>;
 };
 
-export class SessionProvider extends Context.Service<SessionProvider,
-  SessionProviderImpl>()("SessionProvider") {}
+export class SessionProvider extends Context.Service<
+  SessionProvider,
+  SessionProviderImpl
+>()("SessionProvider") {}
