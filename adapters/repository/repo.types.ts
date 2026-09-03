@@ -16,10 +16,11 @@ import {
   runDrizzleQuery,
 } from "~/libs/query.helpers";
 
-// ponytail: legacy compat for adapters/search/index.ts, keep until callers migrate to RepoModel
+// legacy compat for adapters/search/index.ts, keep until callers migrate to RepoModel
 export interface Countable {
   count(attributes?: Record<string, unknown>): Effect.Effect<number, any, any>;
 }
+
 export interface LegacySearchableRepo<TSearch = unknown> extends Countable {
   searchByQuery: (
     params: Partial<PaginationQuery & FilterQuery>,
