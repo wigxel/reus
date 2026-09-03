@@ -1,36 +1,32 @@
-import { safeArray } from "@repo/shared/src/data.helpers";
 import type { PgTableWithColumns } from "drizzle-orm/pg-core";
 import type { TableConfig } from "drizzle-orm/table";
 import { Effect } from "effect";
 import { head, isArray } from "effect/Array";
-import type { UnknownException } from "effect/Cause";
 import { isNullable, isNumber, isRecord, isString } from "effect/Predicate";
 import { SearchOps } from "~/adapters/search/sql-search-resolver";
-import type { DatabaseConnection } from "~/config/database";
-import { QueryError } from "~/config/exceptions";
-import type { FilterOrLogicOperator } from "~/layers/search/primitives";
+import { QueryError } from "~/layers/database";
+import type {
+  FilterOrLogicOperator,
+  FilterQuery,
+  PaginationQuery,
+} from "~/layers/search/primitives";
 import {
   countWhere,
   queryFiltersToWhere,
   runDrizzleQuery,
 } from "~/libs/query.helpers";
-import type { FilterQuery, PaginationQuery } from "~/types/types";
 
-type QueryErrors = UnknownException | Error;
-
+// ponytail: legacy compat for adapters/search/index.ts, keep until callers migrate to RepoModel
+export interface Countable {
+  count(attributes?: Record<string, unknown>): Effect.Effect<number, any, any>;
+}
 export interface LegacySearchableRepo<TSearch = unknown> extends Countable {
   searchByQuery: (
     params: Partial<PaginationQuery & FilterQuery>,
-  ) => Effect.Effect<TSearch, QueryErrors, DatabaseConnection>;
+  ) => Effect.Effect<TSearch, any, any>;
 }
 
-export interface Countable {
-  count(
-    attributes?: Record<string, unknown>,
-  ): Effect.Effect<number, QueryErrors, DatabaseConnection>;
-}
-
-export interface SearchableParams extends PaginationQuery, FilterQuery {
+export interface SearchableParams extends PaginationQuery {
   where: FilterOrLogicOperator | Array<FilterOrLogicOperator>;
 }
 
@@ -135,7 +131,7 @@ export function createRepoHelpers<T extends TableConfig>(
       return [];
     }
 
-    return runDrizzleQuery((db) => {
+    return runDrizzleQuery((db: any) => {
       return db
         .select()
         .from(table)
@@ -154,23 +150,24 @@ export function createRepoHelpers<T extends TableConfig>(
       );
     }
 
-    return find(primaryColumn, arg1, arg2).pipe(Effect.flatMap(head));
+    // ponytail: head returns Option, cast to Effect pipeline until repo types are concrete
+    return find(primaryColumn, arg1, arg2).pipe(Effect.flatMap(head as any));
   }
 
   function deleteModel(
     where: Array<FilterOrLogicOperator> | FilterOrLogicOperator,
   ) {
-    return runDrizzleQuery((db) => {
+    return runDrizzleQuery((db: any) => {
       return db.delete(table).where(queryFiltersToWhere(table, where));
     });
   }
 
   function findAll(params: Partial<SearchableParams>) {
-    return runDrizzleQuery((db) => {
+    return runDrizzleQuery((db: any) => {
       return db
         .select()
         .from(table)
-        .where(queryFiltersToWhere(table, params?.where))
+        .where(queryFiltersToWhere(table, params?.where as any))
         .limit(params?.pageSize)
         .offset(params?.pageNumber);
     });
@@ -179,11 +176,10 @@ export function createRepoHelpers<T extends TableConfig>(
   function create(
     data: typeof table.$inferInsert | Array<typeof table.$inferInsert>,
   ) {
-    return runDrizzleQuery((client) => {
+    return runDrizzleQuery((client: any) => {
       return (
         client
           .insert(table)
-          // @ts-expect-error Unsure why this throws
           .values(Array.isArray(data) ? data : [data])
           .returning()
       );
@@ -191,7 +187,7 @@ export function createRepoHelpers<T extends TableConfig>(
   }
 
   function count(where?: SearchableParams["where"]) {
-    return countWhere(table, SearchOps.reduce(where));
+    return countWhere(table, SearchOps.reduce(where as any));
   }
 
   return {

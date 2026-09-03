@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "format": "biome format --write .",
-    "test": "vitest --run"
+    "test": "vitest --run",
+    "typecheck": "tsc --noEmit",
+    "typecheck:full": "tsc --noEmit --skipLibCheck false 2>&1 | head -n 100"
   },
   "author": "",
   "license": "ISC",

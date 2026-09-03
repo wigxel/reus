@@ -36,3 +36,15 @@ export const safeObj = <T>(
   // @ts-expect-error;
   return isObject(Object, obj) ? obj : EmptyObject;
 };
+
+const EmptyPrimitives = Object.freeze({
+  Array: [],
+  Object: {
+    __proto_: {
+      type: "EmptyObject",
+    },
+  },
+});
+
+export const safeArray = <T>(a?: Array<T>): Array<T | never> =>
+  Array.isArray(a) ? a : EmptyPrimitives.Array;

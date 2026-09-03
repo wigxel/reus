@@ -68,3 +68,16 @@ export function createDatabaseResource<TClient>() {
     return Effect.acquireRelease(acquire, release);
   };
 }
+
+export class QueryError extends TaggedError("QueryError") {
+  constructor(
+    public message: string,
+    public error?: Error,
+  ) {
+    super();
+  }
+
+  toString() {
+    return this.message;
+  }
+}

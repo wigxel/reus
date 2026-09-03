@@ -4,6 +4,7 @@ import type {
   LogicOperator,
   Operation,
 } from "~/layers/search/primitives";
+import { safeObj } from "../utils";
 
 export interface WhereOperationResolver<T, TField> {
   eq: (field: TField, value: unknown) => T | undefined;
@@ -32,14 +33,16 @@ export function buildWhereQueryFilterResolver<T, B>(
   resolvers: WhereHelpers<T, B>,
   op: WhereOperationResolver<T, NonNullable<B>>,
 ) {
-  function processFilters(filters: Array<FilterOrLogicOperator>): Array<T> {
+  function processFilters(filters: Array<FilterOrLogicOperator>): Array<T | undefined> {
     try {
       return filters.map((filter) => {
         if (!filter) return resolvers.empty();
         if (filter?.kind === "NONE") return resolvers.empty();
 
         if (SearchPredicate.isLogic(filter)) {
-          const nestedFilters = processFilters(filter.filters);
+          const nestedFilters = processFilters(filter.filters).filter(
+            (x): x is T => x !== undefined,
+          );
           if (filter.logic === "AND") return op.and(nestedFilters);
           if (filter.logic === "OR") return op.or(nestedFilters);
           return resolvers.empty();
@@ -85,15 +88,15 @@ export function buildWhereQueryFilterResolver<T, B>(
   }
 
   return function transformFilters(filters: Array<FilterOrLogicOperator>) {
-    return processFilters(filters);
+    return processFilters(filters).filter((x): x is T => x !== undefined);
   };
 }
 
 const handleOperation =
   <TValue>(operation: Operation) =>
-  (field: string, value: TValue): FilterOrLogicOperator => {
-    return { kind: "FILTER", field, operation, value };
-  };
+    (field: string, value: TValue): FilterOrLogicOperator => {
+      return { kind: "FILTER", field, operation, value };
+    };
 
 export const SearchOps = {
   eq: handleOperation("eq"),
@@ -129,10 +132,17 @@ export const SearchOps = {
   },
 };
 
+const FilterLogicSet = new Set<string>(["FILTER", "LOGIC", "NONE", "RAW"]);
+
 export const SearchPredicate = {
+  isOperation: (v: unknown): v is LogicOperator | Filter =>
+    FilterLogicSet.has(safeObj(v).kind as string),
+
   isLogic: (v: FilterOrLogicOperator): v is LogicOperator => v.kind === "LOGIC",
 
   isField: (v: FilterOrLogicOperator): v is Filter => v.kind === "FILTER",
+
+  isRaw: (v: unknown): v is LogicOperator => safeObj(v).kind === "RAW",
 
   filterMatches: (fn: (v: Filter) => boolean) => (e: FilterOrLogicOperator) => {
     if (e.kind === "FILTER") return fn(e);
@@ -143,3 +153,10 @@ export const SearchPredicate = {
   fieldMatches: (field: string) =>
     SearchPredicate.filterMatches((e) => e.field === field),
 };
+
+
+export function objectToSearchOps(object: Record<string, string>) {
+  return Object.entries(safeObj(object)).map(([column, newValue]) =>
+    SearchOps.eq(column, newValue),
+  );
+}

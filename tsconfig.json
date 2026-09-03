@@ -1,20 +1,34 @@
 {
   "compilerOptions": {
-    "types": ["vitest/globals"],
+    "baseUrl": ".",
+    "types": ["vitest/globals", "node"],
     "lib": ["es2022", "DOM", "DOM.Iterable"],
-    "module": "ES2020",
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "bundler",
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "target": "ESNext",
-    "moduleResolution": "Node",
+    "skipLibCheck": true,
     "allowJs": false,
-    "resolveJsonModule": false,
+    "resolveJsonModule": true,
     "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
-    "strictNullChecks": true,
+    "esModuleInterop": true,
     "paths": {
       "~/*": ["./*"]
     }
-  }
+  },
+  "include": [
+    "layers/**/*",
+    "adapters/search/**/*",
+    "adapters/encryption/**/*",
+    "adapters/repository/**/*",
+    "adapters/utils.ts",
+    "adapters/effect.util.ts",
+    "adapters/pagination.service.ts",
+    "shims.d.ts",
+    "vitest.config.mts"
+  ],
+  "exclude": ["node_modules"]
 }

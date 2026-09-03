@@ -49,8 +49,7 @@ export class AESAlgo {
   async encrypt(_message: string): Promise<ArrayBuffer> {
     // Set the plaintext message to encrypt
     const encodedMessage = new TextEncoder().encode(_message);
-    console.log(">>>", this.iv, this.key);
-    // Encrypt message with IV and algorithm
+
     return await crypto.subtle.encrypt(
       { name: AESAlgo.algorithm.name, iv: this.iv },
       this.key,

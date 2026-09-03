@@ -1,6 +1,10 @@
-import { safeInt } from "@repo/shared/src/data.helpers";
 import { Context, Layer, Order } from "effect";
-import type { PaginationQuery } from "~/types/types";
+import type { PaginationQuery } from "~/layers/search/primitives";
+// ponytail: shim for host-shared helper, inline fallback until @repo/shared is installed
+const safeInt = (v: unknown, d: number): number => {
+  const n = Number(v);
+  return Number.isFinite(n) ? n : d;
+};
 
 export const DEFAULT_PAGINATION_LIMIT = 25;
 

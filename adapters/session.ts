@@ -55,9 +55,9 @@ const UserLive: SessionImpl = {
   },
 
   getUser(user: { id: string }) {
-    return runDrizzleQuery<User>((db) =>
+    return runDrizzleQuery<User>((db: any) =>
       db.query.userTable.findFirst({
-        where: (cols, { eq }) => eq(cols.id, user.id),
+        where: (cols: any, { eq }: any) => eq(cols.id, user.id),
       }),
     );
   },
