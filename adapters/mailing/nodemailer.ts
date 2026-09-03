@@ -4,7 +4,7 @@ import {
   MailTransporter,
   MailingConfig,
   MailingError,
-} from "~/contexts/mailing";
+} from "../../contexts/mailing";
 
 export const NodeMailerTransporter = Layer.succeed(MailTransporter, {
   send(params, content) {

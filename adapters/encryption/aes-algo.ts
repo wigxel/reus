@@ -1,7 +1,8 @@
-import { Config, Console, Effect, Layer, pipe } from "effect";
+import type { webcrypto } from "node:crypto";
+import { Config, Effect, Layer, pipe } from "effect";
 import crypto from "uncrypto";
-import { arrayBufferToBase64, base64ToArrayBuffer } from "~/adapters/utils";
-import { HashingError, ReversibleHash } from "~/contexts/encryption/reversible";
+import { HashingError, ReversibleHash } from "../../contexts/encryption/reversible";
+import { arrayBufferToBase64, base64ToArrayBuffer } from "../utils";
 
 export class AESAlgo {
   private readonly key: CryptoKey;
@@ -24,7 +25,7 @@ export class AESAlgo {
     return crypto.getRandomValues(_12bytes);
   }
 
-  static importKey(jwk: JsonWebKey) {
+  static importKey(jwk: webcrypto.JsonWebKey) {
     return crypto.subtle.importKey("jwk", jwk, AESAlgo.algorithm, false, [
       "decrypt",
       "encrypt",
@@ -73,7 +74,7 @@ export class AESAlgo {
   }
 }
 
-const getCryptoKey = (jwk: JsonWebKey) => {
+const getCryptoKey = (jwk: webcrypto.JsonWebKey) => {
   return Effect.tryPromise({
     try: () => AESAlgo.importKey(jwk),
     catch: () => new HashingError("Error importing Crypto Key"),
@@ -98,20 +99,18 @@ const getEncryptionCred = Effect.gen(function* () {
       try: () => JSON.parse(jwk_string),
       catch: () => new HashingError("Error parsing JWK string"),
     }),
-    Effect.map((e) => e as JsonWebKey),
+    Effect.map((json_web_key) => json_web_key as webcrypto.JsonWebKey),
   );
 
   const iv = yield* convertIV(iv_string);
   const cryptoKey = yield* getCryptoKey(jwk_parsed);
-
-  yield* Console.log("Parsed Key:", { iv, jwk_parsed });
 
   return { iv, cryptoKey };
 });
 
 const reversible = Effect.gen(function* () {
   const { cryptoKey, iv } = yield* getEncryptionCred;
-  const hash = new AESAlgo(cryptoKey, iv);
+  const hash = new AESAlgo(cryptoKey, iv.buffer);
 
   const encrypt = (value: string) => {
     return Effect.tryPromise({
@@ -122,11 +121,12 @@ const reversible = Effect.gen(function* () {
     }).pipe(Effect.map((buffer) => arrayBufferToBase64(buffer)));
   };
 
-  const decrypt = (value: string) =>
-    pipe(
+  const decrypt = (value: string) => {
+    return pipe(
       Effect.tryPromise(() => hash.decrypt(base64ToArrayBuffer(value))),
-      Effect.mapError(() => new HashingError("Error decrypting content")),
+      Effect.mapError(() => new HashingError("Error decrypting content"))
     );
+  };
 
   return {
     encrypt,

@@ -1,6 +1,6 @@
 import { Effect } from "effect";
-import { Argon2dHasherLive } from "~/adapters/encryption/argon2d";
-import { hashPassword, verifyPassword } from "~/contexts/encryption/helpers";
+import { Argon2dHasherLive } from "./argon2d";
+import { hashPassword, verifyPassword } from "../../contexts/encryption/helpers";
 
 describe("Argon2d PasswordHasher (scrypt via @better-auth/utils)", () => {
   it("should hash and verify same password", async () => {

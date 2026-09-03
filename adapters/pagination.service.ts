@@ -1,5 +1,5 @@
 import { Context, Layer, Order } from "effect";
-import type { PaginationQuery } from "~/contexts/search/primitives";
+import type { PaginationQuery } from "../contexts/search/primitives";
 // ponytail: shim for host-shared helper, inline fallback until @repo/shared is installed
 const safeInt = (v: unknown, d: number): number => {
   const n = Number(v);

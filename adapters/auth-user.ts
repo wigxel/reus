@@ -1,10 +1,10 @@
 import { Context, Effect, Layer, pipe } from "effect";
-import { DatabaseLive } from "~/adapters/database/drizzle";
-import { Argon2dHasherLive } from "~/adapters/encryption/argon2d";
-import { UserSessionLive } from "~/adapters/session";
-import { notNil } from "~/libs/query.helpers";
-import { OTPRepoLayer } from "~/repositories/otp.repository";
-import { UserRepo, UserRepoLayer } from "~/repositories/user.repository";
+import { DatabaseLive } from "./database/drizzle";
+import { Argon2dHasherLive } from "./encryption/argon2d";
+import { UserSessionLive } from "./session";
+import { notNil } from "libs/query.helpers";
+import { OTPRepoLayer } from "repositories/otp.repository";
+import { UserRepo, UserRepoLayer } from "repositories/user.repository";
 
 export class AuthUser extends Context.Service<AuthUser, AuthUserService>()(
   "AuthUser",

@@ -3,18 +3,18 @@ import type { TableConfig } from "drizzle-orm/table";
 import { Effect } from "effect";
 import { head, isArray } from "effect/Array";
 import { isNullish, isNumber, isObject, isString } from "effect/Predicate";
-import { SearchOps } from "~/adapters/search/sql-search-resolver";
-import { QueryError } from "~/contexts/database";
+import { SearchOps } from "../search/sql-search-resolver";
+import { QueryError } from "../../contexts/database";
 import type {
   FilterOrLogicOperator,
   FilterQuery,
   PaginationQuery,
-} from "~/contexts/search/primitives";
+} from "../../contexts/search/primitives";
 import {
   countWhere,
   queryFiltersToWhere,
   runDrizzleQuery,
-} from "~/libs/query.helpers";
+} from "libs/query.helpers";
 
 // legacy compat for adapters/search/index.ts, keep until callers migrate to RepoModel
 export interface Countable {

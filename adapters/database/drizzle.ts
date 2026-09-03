@@ -4,10 +4,10 @@ import postgres from "postgres";
 import {
   DatabaseConnectionTypeId,
   createDatabaseResource,
-} from "~/contexts/database";
+} from "../../contexts/database";
 
 // UNCOMMENT and add link to the drizzle schema
-// import * as schema from '~/migrations/schema.ts'
+// import * as schema from 'migrations/schema.ts'
 const schema = {};
 
 export type DrizzleClient = PostgresJsDatabase<typeof schema>;

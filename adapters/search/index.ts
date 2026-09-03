@@ -1,13 +1,13 @@
 import { Effect, Layer } from "effect";
-import type { InferResult } from "~/adapters/effect.util";
-import type { LegacySearchableRepo } from "~/adapters/repository/repo.types";
-import { FilterImpl, SearchFilter } from "~/adapters/search/filter.service";
-import { PaginationImpl } from "~/adapters/search/pagination.service";
-import { PaginationService } from "~/contexts/search/pagination";
+import type { InferResult } from "../effect.util";
+import type { LegacySearchableRepo } from "../repository/repo.types";
+import { FilterImpl, SearchFilter } from "./filter.service";
+import { PaginationImpl } from "./pagination.service";
+import { PaginationService } from "../../contexts/search/pagination";
 import type {
   FilterQuery,
   PaginationQuery,
-} from "~/contexts/search/primitives";
+} from "../../contexts/search/primitives";
 
 interface QueryRepo extends LegacySearchableRepo {}
 

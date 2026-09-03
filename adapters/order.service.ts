@@ -1,7 +1,7 @@
 import { Effect } from "effect";
-import { ExpectedError } from "~/config/exceptions";
-import type { PaymentDetails, TOrderDetails } from "~/migrations/schema";
-import { OrderRepoLayer } from "~/repositories/order.repository";
+import { ExpectedError } from "config/exceptions";
+import type { PaymentDetails, TOrderDetails } from "migrations/schema";
+import { OrderRepoLayer } from "repositories/order.repository";
 
 export const getOrders = (
   currentUserId: string,

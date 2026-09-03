@@ -23,7 +23,7 @@ export function base64ToArrayBuffer(base64: string): ArrayBuffer {
 }
 
 export function safeInt(num: unknown, fallback = 0): number {
-  const value = Number.parseInt(num as string);
+  const value = Number.parseInt(num as string, 10);
 
   return !Object.is(Number.NaN, value) ? value : fallback;
 }
@@ -33,7 +33,8 @@ const EmptyObject: Record<string, never> = Object.freeze({});
 export const safeObj = <T>(
   obj: T,
 ): T extends Record<string, unknown> ? T : typeof EmptyObject => {
-  return isObject(obj) ? (obj as any) : EmptyObject;
+  // biome-ignore lint/suspicious/noExplicitAny: No need
+  return isObject(obj) ? (obj as any) : EmptyPrimitives.Object as any
 };
 
 const EmptyPrimitives = Object.freeze({
