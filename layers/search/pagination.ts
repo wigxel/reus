@@ -6,7 +6,5 @@ interface Pagination {
   meta: { currentPage: number; perPage: number; total: number | undefined };
 }
 
-export class PaginationService extends Context.Tag("Pagination")<
-  PaginationService,
-  Pagination
->() {}
+export class PaginationService extends Context.Service<PaginationService,
+  Pagination>()("Pagination") {}

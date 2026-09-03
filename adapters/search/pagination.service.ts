@@ -8,7 +8,7 @@ export const DEFAULT_PAGINATION_LIMIT = 25;
 function Pagination(
   data?: { limit: number; page: number } | Record<string, unknown>,
 ) {
-  const clamp = Order.clamp(Order.number);
+  const clamp = Order.clamp(Order.Number);
   const pageSize = clamp(safeInt(data?.limit), {
     minimum: DEFAULT_PAGINATION_LIMIT,
     maximum: 100,

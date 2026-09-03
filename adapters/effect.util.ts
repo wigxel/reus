@@ -1,12 +1,10 @@
-import type { Effect, Layer, Runtime } from "effect";
+import type { Effect, Layer } from "effect";
 
-export type InferRequirements<T> = T extends Runtime.Runtime<infer R>
-  ? R
-  : T extends Layer.Layer<infer ROut, infer E, infer RIn>
-    ? ROut
-    : T extends Effect.Effect<infer A, infer B, infer C>
-      ? C
-      : never;
+export type InferRequirements<T> = T extends Layer.Layer<infer ROut, infer E, infer RIn>
+  ? ROut
+  : T extends Effect.Effect<infer A, infer B, infer C>
+  ? C
+  : never;
 
 export type InferError<T> = T extends Layer.Layer<
   infer ROut,
@@ -15,8 +13,8 @@ export type InferError<T> = T extends Layer.Layer<
 >
   ? E
   : T extends Effect.Effect<infer A, infer B, infer C>
-    ? B
-    : never;
+  ? B
+  : never;
 
 export type InferScope<T> = T extends Layer.Layer<
   infer ROut,
@@ -25,8 +23,8 @@ export type InferScope<T> = T extends Layer.Layer<
 >
   ? RIn
   : T extends Effect.Effect<infer A, infer B, infer C>
-    ? C
-    : never;
+  ? C
+  : never;
 
 export type InferResult<T> = T extends (
   ...args: unknown[]

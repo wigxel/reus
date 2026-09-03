@@ -1,7 +1,7 @@
 import { Effect, pipe } from "effect";
 import { TaggedError } from "effect/Data";
 import { AuthUser } from "~/adapters/auth-user";
-import { generateOTP } from "~/adapters/otp/oslo-totp";
+import { generateOTP } from "~/adapters/otp/better-auth-otp";
 import { ExpectedError, PermissionError } from "~/config/exceptions";
 import { hashPassword, verifyPassword } from "~/layers/encryption/helpers";
 import { Session } from "~/layers/session_";
@@ -10,12 +10,12 @@ import { UserRepoLayer } from "~/repositories/user.repository";
 import { sendmail } from "./mail.service";
 
 export function logout({ access_token }: { access_token: string }) {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const session = yield* Session;
     const response = { message: "Session terminated" } as const;
 
     // validate authorization token
-    return yield* _(
+    return yield* pipe(
       session.validate(access_token),
       Effect.flatMap(() => session.invalidate(access_token)),
       Effect.match({
@@ -27,14 +27,14 @@ export function logout({ access_token }: { access_token: string }) {
 }
 
 export function login({ body }: { body: { email: string; password: string } }) {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const session = yield* Session;
     const auth_user = yield* AuthUser;
 
     const error = new PermissionError("Invalid username or password provided");
 
-    yield* _(Effect.logDebug("Getting authenticated User"));
-    const user = yield* _(
+    yield*(Effect.logDebug("Getting authenticated User"));
+    const user = yield*(
       pipe(
         auth_user.getUserRecord({ email: body.email }),
         Effect.mapError(() => error),
@@ -43,12 +43,11 @@ export function login({ body }: { body: { email: string; password: string } }) {
 
     yield* Effect.logDebug("Verify password");
 
-    yield* _(
+    yield*(
       verifyPassword(body.password, user?.password ?? ""),
       Effect.mapError(() => error),
     );
 
-    // makes sure the user's email is verified
     if (user.email_verified !== true) {
       const otp = yield* generateOTP();
       const otpRepo = yield* OtpRepo;
@@ -100,7 +99,7 @@ export const changePassword = (
   oldPassword: string,
   newPassword: string,
 ) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const userRepo = yield* UserRepoLayer.Tag;
     const userProfile = yield* userRepo.findFirst({
       id: userId,

@@ -109,7 +109,7 @@ const getEncryptionCred = Effect.gen(function* () {
   return { iv, cryptoKey };
 });
 
-const reversible = Effect.gen(function* (_) {
+const reversible = Effect.gen(function* () {
   const { cryptoKey, iv } = yield* getEncryptionCred;
   const hash = new AESAlgo(cryptoKey, iv);
 

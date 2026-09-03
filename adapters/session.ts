@@ -35,7 +35,7 @@ export interface SessionImpl {
   invalidate(token: string): Effect.Effect<void, never, SessionProvider>;
 }
 
-export class Session extends Context.Tag("Session")<Session, SessionImpl>() {}
+export class Session extends Context.Service<Session, SessionImpl>()("Session") {}
 
 //user session implementation
 const UserLive: SessionImpl = {

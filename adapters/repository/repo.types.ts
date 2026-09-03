@@ -2,7 +2,7 @@ import type { PgTableWithColumns } from "drizzle-orm/pg-core";
 import type { TableConfig } from "drizzle-orm/table";
 import { Effect } from "effect";
 import { head, isArray } from "effect/Array";
-import { isNullable, isNumber, isRecord, isString } from "effect/Predicate";
+import { isNullish, isNumber, isObject, isString } from "effect/Predicate";
 import { SearchOps } from "~/adapters/search/sql-search-resolver";
 import { QueryError } from "~/layers/database";
 import type {
@@ -112,7 +112,7 @@ export function createRepoHelpers<T extends TableConfig>(
     arg2?: FindArg2,
   ) {
     function resolveQuery(): FilterOrLogicOperator[] {
-      if (!isNullable(arg1) && !isNullable(arg2)) {
+      if (!isNullish(arg1) && !isNullish(arg2)) {
         return [SearchOps.eq(String(arg1), arg2)];
       }
 
@@ -124,8 +124,8 @@ export function createRepoHelpers<T extends TableConfig>(
         return [SearchOps.in(String(primaryColumn), arg1)];
       }
 
-      if (isRecord(arg1)) {
-        return Object.keys(arg1).map((key) => SearchOps.eq(key, arg1[key]));
+      if (isObject(arg1)) {
+        return Object.keys(arg1).map((key) => SearchOps.eq(key, (arg1 as Record<string, unknown>)[key]));
       }
 
       return [];

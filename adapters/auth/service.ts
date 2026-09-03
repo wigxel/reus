@@ -9,15 +9,15 @@ const CustomerLive = Layer.succeed(
   AuthUserCtx.of({
     getUserRecord: ({ email }) => {
       return Effect.suspend(() =>
-        Effect.gen(function* (_) {
-          yield* _(Effect.logDebug("CustomerAuth: Getting user record"));
-          const user = yield* _(
+        Effect.gen(function* () {
+          yield*(Effect.logDebug("CustomerAuth: Getting user record"));
+          const user = yield*(
             pipe(
               tryQuery(() => findUserQuery({ where: { email } })),
               Effect.flatMap(notNil),
             ),
           );
-          yield* _(
+          yield*(
             Effect.logDebug(`CustomerAuth: Sending user record ${user.id}`),
           );
           return { user_id: String(user.id), password: user.password ?? "" };
@@ -30,15 +30,15 @@ const TeamMemberAuth = Layer.succeed(
   AuthUserCtx,
   AuthUserCtx.of({
     getUserRecord: ({ email }) => {
-      return Effect.gen(function* (_) {
-        yield* _(Effect.logDebug("TeamMemberAuth: Getting user record"));
-        const user = yield* _(
+      return Effect.gen(function* () {
+        yield*(Effect.logDebug("TeamMemberAuth: Getting user record"));
+        const user = yield*(
           tryQuery(() => getAdminByEmailQuery(email)).pipe(
             Effect.flatMap(notNil),
           ),
         );
 
-        yield* _(
+        yield*(
           Effect.logDebug(`TeamMemberAuth: Sending user record ${user.id}`),
         );
 

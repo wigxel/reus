@@ -1,21 +1,17 @@
 import { Effect, Layer, pipe } from "effect";
-import { Argon2id } from "oslo/password";
-import {
-  PasswordHasher,
-  PasswordHasherError,
-} from "~/layers/encryption/password-hasher";
+import { hashPassword as betterHash, verifyPassword as betterVerify } from "@better-auth/utils/password";
+import { PasswordHasher, PasswordHasherError } from "~/layers/encryption/password-hasher";
 
 function hashPassword(password: string) {
-  return Effect.promise(() => new Argon2id().hash(password));
+  return Effect.promise(() => betterHash(password));
 }
 
 function verifyPassword(password: string, hash: string) {
   return pipe(
     Effect.tryPromise({
-      try: () => new Argon2id().verify(hash, password),
+      try: () => betterVerify(hash, password),
       catch: (err) => new PasswordHasherError(String(err)),
     }),
-    Effect.map((status) => status),
   );
 }
 

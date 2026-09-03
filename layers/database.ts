@@ -1,4 +1,5 @@
-import { type ConfigError, Effect } from "effect";
+import { Effect } from "effect";
+import type { ConfigError } from "effect/Config";
 import { TaggedError } from "effect/Data";
 
 /**
@@ -32,14 +33,10 @@ export class DatabaseScope extends TaggedError("DatabaseResourceError") {
 }
 
 export function createDatabaseResource<TClient>() {
-  return <
-    T extends DatabaseResourceInterface<TClient>,
-    E extends ConfigError.ConfigError,
-    R,
-  >(
+  return <T extends DatabaseResourceInterface<TClient>, E extends ConfigError, R>(
     effect: Effect.Effect<T, E, R>,
   ) => {
-    const acquire = Effect.gen(function* (_) {
+    const acquire = Effect.gen(function* () {
       yield* Effect.logDebug("[Database] connected ✅");
       return yield* effect;
     }).pipe(
@@ -52,16 +49,10 @@ export function createDatabaseResource<TClient>() {
 
     const release = (res: DatabaseResourceInterface<TClient>) => {
       return Effect.promise(() => res.close()).pipe(
-        Effect.tapBoth({
-          onSuccess: () => {
-            return Effect.logDebug("[Database] connection closed 🚫");
-          },
-          onFailure: (err) => {
-            return Effect.logDebug(
-              `[Database] Error closing connection ❌. Reason: ${String(err)}`,
-            );
-          },
-        }),
+        Effect.tap(() => Effect.logDebug("[Database] connection closed 🚫")),
+        Effect.tapError((err: unknown) =>
+          Effect.logDebug(`[Database] Error closing connection ❌. Reason: ${String(err)}`),
+        ),
       );
     };
 

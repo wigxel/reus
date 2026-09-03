@@ -1,5 +1,4 @@
-import { Context, type Effect } from "effect";
-import type { NoSuchElementException, UnknownException } from "effect/Cause";
+import { Cause, Context, type Effect } from "effect";
 
 export interface SessionUser {
   id: string;
@@ -14,18 +13,13 @@ export interface SessionInfo {
 
 export type SessionProviderImpl = {
   createSession(user_id: string): Effect.Effect<
-    {
-      session_id: string;
-      expires_at: Date;
-    },
-    UnknownException
+    { session_id: string; expires_at: Date },
+    Cause.UnknownError
   >;
 
-  validateSession(
-    session_id: string,
-  ): Effect.Effect<
+  validateSession(session_id: string): Effect.Effect<
     { user: SessionUser; session: SessionInfo },
-    UnknownException | NoSuchElementException
+    Cause.UnknownError | Cause.NoSuchElementError
   >;
 
   invalidateSession(session_id: string): Effect.Effect<void>;
@@ -33,7 +27,5 @@ export type SessionProviderImpl = {
   invalidateUserSessions(user_id: string): Effect.Effect<void>;
 };
 
-export class SessionProvider extends Context.Tag("SessionProvider")<
-  SessionProvider,
-  SessionProviderImpl
->() {}
+export class SessionProvider extends Context.Service<SessionProvider,
+  SessionProviderImpl>()("SessionProvider") {}

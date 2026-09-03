@@ -33,8 +33,7 @@ const EmptyObject: Record<string, never> = Object.freeze({});
 export const safeObj = <T>(
   obj: T,
 ): T extends Record<string, unknown> ? T : typeof EmptyObject => {
-  // @ts-expect-error;
-  return isObject(Object, obj) ? obj : EmptyObject;
+  return isObject(obj) ? (obj as any) : EmptyObject;
 };
 
 const EmptyPrimitives = Object.freeze({

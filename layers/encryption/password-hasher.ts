@@ -9,10 +9,8 @@ interface PasswordHasherInterface {
   ): Effect.Effect<boolean, PasswordHasherError>;
 }
 
-export class PasswordHasher extends Context.Tag("PasswordHasher")<
-  PasswordHasher,
-  PasswordHasherInterface
->() { }
+export class PasswordHasher extends Context.Service<PasswordHasher,
+  PasswordHasherInterface>()("PasswordHasher") { }
 
 export class PasswordHasherError {
   constructor(public message: string) { }

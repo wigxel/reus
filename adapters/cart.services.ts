@@ -29,7 +29,7 @@ export const addToCart = (data: {
   productId: string;
   currentSessionId: string | undefined;
 }) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const cartRepo = yield* CartRepoLayer.Tag;
     const cartItemRepo = yield* CartItemsRepoLayer.Tag;
     const prodRepo = yield* ProductRepoLayer.Tag;
@@ -47,7 +47,7 @@ export const addToCart = (data: {
     }
 
     /* Check if there is a cart for the current session id */
-    const cart = yield* _(
+    const cart = yield*(
       cartRepo.getUserCart(sessionId),
       Effect.matchEffect({
         onFailure: () => cartRepo.create({ cartSessionId: sessionId }),
@@ -90,7 +90,7 @@ export const removeFromCart = (data: {
   productId: string;
   currentSessionId: string;
 }) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const cartRepo = yield* CartRepoLayer.Tag;
     const cartItemRepo = yield* CartItemsRepoLayer.Tag;
 
@@ -102,7 +102,7 @@ export const removeFromCart = (data: {
     }
 
     /* Check if there is a cart for the current session id */
-    const cart = yield* _(
+    const cart = yield*(
       cartRepo.getUserCart(data.currentSessionId),
       Effect.mapError(() => new ExpectedError("Invalid cart session id")),
     );
@@ -129,7 +129,7 @@ export const removeFromCart = (data: {
 export const getAllCartItems = (data: {
   currentSessionId: string | undefined;
 }) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const cartRepo = yield* CartRepoLayer.Tag;
     const cartItemRepo = yield* CartItemsRepoLayer.Tag;
 
@@ -146,7 +146,7 @@ export const getAllCartItems = (data: {
     }
 
     /* Check if there is a cart for the current session id */
-    const cart = yield* _(
+    const cart = yield*(
       cartRepo.getUserCart(data.currentSessionId),
       Effect.mapError(
         () => new ExpectedError("Invalid cart id: Add new items to cart"),
@@ -175,7 +175,7 @@ export const getAllCartItems = (data: {
 export const deleteCart = (data: {
   currentSessionId: string;
 }) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const cartRepo = yield* CartRepoLayer.Tag;
 
     /* If currentSessionId is undefined cancel delete operation */
@@ -186,7 +186,7 @@ export const deleteCart = (data: {
     }
 
     /* Check if there is a cart for the current session id */
-    const cart = yield* _(
+    const cart = yield*(
       cartRepo.getUserCart(data.currentSessionId),
       Effect.mapError(() => new ExpectedError("Invalid cart session id")),
     );
@@ -202,7 +202,7 @@ export const updateCartQuantity = (data: {
   productId: string;
   currentSessionId: string;
 }) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const cartRepo = yield* CartRepoLayer.Tag;
     const cartItemRepo = yield* CartItemsRepoLayer.Tag;
 
@@ -211,7 +211,7 @@ export const updateCartQuantity = (data: {
     }
 
     /* Check if there is a cart for the current session id */
-    const cart = yield* _(
+    const cart = yield*(
       cartRepo.getUserCart(data.currentSessionId),
       Effect.mapError(() => new ExpectedError("Cart not found")),
     );
@@ -243,7 +243,7 @@ export const checkout = (
   currentUserId: string | undefined,
   cartSessionId: string | undefined,
 ) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const cartRepo = yield* CartRepoLayer.Tag;
     const cartItemsRepo = yield* CartItemsRepoLayer.Tag;
     const userRepo = yield* UserRepoLayer.Tag;
@@ -254,14 +254,14 @@ export const checkout = (
       ? yield* userRepo.getUserById(currentUserId)
       : null;
 
-    const cart = yield* _(
+    const cart = yield*(
       cartRepo.getUserCart(cartSessionId),
       Effect.mapError(
         () => new ExpectedError("No available cart for the session"),
       ),
     );
 
-    const cartItems = yield* _(
+    const cartItems = yield*(
       cartItemsRepo.getCartItems(cart.cartId),
       Effect.mapError(() => new ExpectedError("No available cart items")),
     );
@@ -288,7 +288,7 @@ export const processCheckout = (
   cartSessionId: string,
   data: z.infer<typeof authCheckoutSchema> & z.infer<typeof checkoutSchema>,
 ) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const userRepo = yield* UserRepoLayer.Tag;
     const cartRepo = yield* CartRepoLayer.Tag;
     const cartItemsRepo = yield* CartItemsRepoLayer.Tag;
@@ -322,7 +322,7 @@ export const processCheckout = (
     // if not logged in create new account for the user
     const user = !currentUserId
       ? yield* createNewUser
-      : yield* _(
+      : yield*(
           userRepo
             .getUserById(currentUserId)
             .pipe(
@@ -333,7 +333,7 @@ export const processCheckout = (
         );
 
     // get the cart id
-    const cart = yield* _(
+    const cart = yield*(
       cartRepo.getUserCart(cartSessionId),
       Effect.mapError(
         () =>

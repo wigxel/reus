@@ -10,10 +10,8 @@ export interface ReversibleHashInterface {
  * For encrypting and decrypting sharable content.
  * I created this for email tokens specifically
  */
-export class ReversibleHash extends Context.Tag("ReversibleHash")<
-  ReversibleHash,
-  ReversibleHashInterface
->() {}
+export class ReversibleHash extends Context.Service<ReversibleHash,
+  ReversibleHashInterface>()("ReversibleHash") {}
 
 export class HashingError extends TaggedError("HashingError") {
   constructor(public message: string) {

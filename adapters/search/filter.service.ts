@@ -2,10 +2,8 @@ import { Context, Layer } from "effect";
 import { isEmpty } from "effect/String";
 
 /** @deprecated use the collection filter instead **/
-export class SearchFilter extends Context.Tag("SearchFilter")<
-  SearchFilter,
-  { search: string }
->() {}
+export class SearchFilter extends Context.Service<SearchFilter,
+  { search: string }>()("SearchFilter") {}
 
 export const FilterImpl = (query?: Record<string, unknown>) => {
   const search_str = (query?.search as string) ?? "";

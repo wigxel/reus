@@ -19,9 +19,9 @@ export const createProduct = (
   return Effect.gen(function* (_) {
     const prodRepo = yield* ProductRepoLayer.Tag;
     const categoryRepo = yield* CategoryRepo;
-    const productLocationRepo = yield* _(ProductLocationRepoLayer.Tag);
+    const productLocationRepo = yield*(ProductLocationRepoLayer.Tag);
 
-    yield* _(categoryRepo.firstOrThrow(input.categoryId));
+    yield*(categoryRepo.firstOrThrow(input.categoryId));
 
     const productData: Product = {
       ownerId: input.ownerId,
@@ -43,7 +43,7 @@ export const createProduct = (
       longitude: String(input.location.longitude),
     };
 
-    yield* _(productLocationRepo.create(locationData));
+    yield*(productLocationRepo.create(locationData));
 
     return {
       status: true,
@@ -206,9 +206,9 @@ export const productStatusToggle = (
   currentUserId: string = null,
 ) => {
   return Effect.gen(function* (_) {
-    const prodRepo = yield* _(ProductRepoLayer.Tag);
+    const prodRepo = yield*(ProductRepoLayer.Tag);
 
-    const productDetails = yield* _(prodRepo.getProductById(productId)).pipe(
+    const productDetails = yield*(prodRepo.getProductById(productId)).pipe(
       Effect.mapError(
         (e) => new Error(`Unable to update product ${toggleType} status`),
       ),
@@ -224,7 +224,7 @@ export const productStatusToggle = (
     const updateData = { [toggleType]: !state };
 
     //toggle the state on save
-    const updateResult = yield* _(
+    const updateResult = yield*(
       prodRepo.update(currentUserId, productId, updateData),
     );
 

@@ -1,7 +1,8 @@
-import { Config, type ConfigError, Context, Effect } from "effect";
+import { Config, Context, Effect } from "effect";
+import type { ConfigError } from "effect/Config";
 import { TaggedError } from "effect/Data";
 
-export const MailingConfig = Effect.gen(function* (_) {
+export const MailingConfig = Effect.gen(function* () {
   const MAIL_USER = yield* Config.string("MAIL_USER");
   const MAIL_PASSWORD = yield* Config.string("MAIL_PASSWORD");
   const MAIL_HOST = yield* Config.string("MAIL_HOST");
@@ -15,16 +16,11 @@ export const MailingConfig = Effect.gen(function* (_) {
   };
 });
 
-export class MailTransporter extends Context.Tag("MailTransporter")<
-  MailTransporter,
-  MailServiceInterface
->() {}
+export class MailTransporter extends Context.Service<MailTransporter,
+  MailServiceInterface>()("MailTransporter") {}
 
 export interface MailServiceInterface {
-  send(
-    params: MailOptions,
-    content?: MailContent,
-  ): Effect.Effect<void, MailingError | ConfigError.ConfigError>;
+  send(params: MailOptions, content?: MailContent): Effect.Effect<void, MailingError | ConfigError>;
 }
 
 export interface MailAddress {

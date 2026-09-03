@@ -12,14 +12,14 @@ import { ProductRepo } from "~/repositories/product.repository";
 import { ReviewRepo } from "~/repositories/review.repository";
 
 export function readReviews(filters: Partial<Review> = {}) {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const reviewRepo = yield* ReviewRepo;
     return yield* reviewRepo.findProductReviews(filters);
   });
 }
 
 export function createReview(data: NewReview) {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const reviewRepo = yield* ReviewRepo;
     const productRepo = yield* ProductRepo;
     const response = yield* reviewRepo.create(data);
@@ -45,7 +45,7 @@ export function updateReview(
   userId: string,
   data: Partial<Omit<Review, "id">>,
 ) {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const reviewRepo = yield* ReviewRepo;
     const review = yield* reviewRepo.findOne(reviewId);
     if (!review) yield* new NoSuchElementException("Review does not exist");
@@ -58,7 +58,7 @@ export function updateReview(
 }
 
 export function deleteReview(reviewId: string, userId: string) {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const reviewRepo = yield* ReviewRepo;
     const review = yield* reviewRepo.findOne(reviewId);
     if (!review) yield* new NoSuchElementException("Review does not exist");
@@ -71,14 +71,14 @@ export function deleteReview(reviewId: string, userId: string) {
 }
 
 export function readComments(data: Partial<Comment>) {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const commentRepo = yield* CommentRepo;
     return yield* commentRepo.findComments(data);
   });
 }
 
 export function createComment(data: NewComments) {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const commentRepo = yield* CommentRepo;
     return yield* commentRepo.create(data);
   });
@@ -89,7 +89,7 @@ export function updateComment(
   userId: string,
   data: Partial<Omit<Comment, "id">>,
 ) {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const commentRepo = yield* CommentRepo;
     const comment = yield* commentRepo.findOne(commentId);
 
@@ -106,7 +106,7 @@ export function updateComment(
 }
 
 export function deleteComment(commentId: string, userId: string) {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const commentRepo = yield* CommentRepo;
     const comment = yield* commentRepo.findOne(commentId);
 

@@ -13,5 +13,4 @@ declare module "~/types/*";
 declare module "@repo/shared/*";
 declare module "@repo/shared/src/data.helpers";
 declare module "cloudinary";
-declare module "@lucia-auth/adapter-drizzle";
 declare module "./user.service";

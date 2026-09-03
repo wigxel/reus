@@ -3,9 +3,6 @@ import path from "pathe";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  optimizeDeps: {
-    exclude: ["oslo"],
-  },
   plugins: [],
   test: {
     alias: {

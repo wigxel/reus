@@ -28,7 +28,7 @@ export const updateOrder = (
     const orderRepo = yield* OrderRepoLayer.Tag;
 
     //get the order by id
-    const orderDetails = yield* _(
+    const orderDetails = yield*(
       orderRepo.getSingleOrder({
         id: v.orderId,
         [v.user]: v.currentUserId,
