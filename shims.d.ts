@@ -4,7 +4,7 @@ declare module "~/*";
 declare module "~/libs/query.helpers";
 declare module "~/repositories/*";
 declare module "~/config/*";
-declare module "~/layers/*";
+declare module "~/contexts/*";
 declare module "~/migrations/*";
 declare module "~/utils/*";
 declare module "~/dto/*";

@@ -21,7 +21,7 @@ const MailConfig = Effect.gen(function* () {
 });
 
 export const sendmail = (options: SendMailRaw) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const smtpCredentials = yield* MailConfig;
     const transporter = yield* MailTransporter;
     const canSendEmail = yield* Config.boolean("ENABLE_MAILING").pipe(
@@ -43,7 +43,7 @@ export const sendmail = (options: SendMailRaw) => {
   });
 };
 
-const MailTransporter = Effect.gen(function* (_) {
+const MailTransporter = Effect.gen(function* () {
   const { host, port, user, pass, secure } = yield* MailConfig;
 
   return nodemailer.createTransport({

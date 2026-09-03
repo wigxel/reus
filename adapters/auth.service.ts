@@ -3,8 +3,8 @@ import { TaggedError } from "effect/Data";
 import { AuthUser } from "~/adapters/auth-user";
 import { generateOTP } from "~/adapters/otp/better-auth-otp";
 import { ExpectedError, PermissionError } from "~/config/exceptions";
-import { hashPassword, verifyPassword } from "~/layers/encryption/helpers";
-import { Session } from "~/layers/session_";
+import { hashPassword, verifyPassword } from "~/contexts/encryption/helpers";
+import { Session } from "~/adapters/session";
 import { OtpRepo } from "~/repositories/otp.repository";
 import { UserRepoLayer } from "~/repositories/user.repository";
 import { sendmail } from "./mail.service";
@@ -71,7 +71,7 @@ export function login({ body }: { body: { email: string; password: string } }) {
     }
 
     yield* Effect.logDebug("Creating session");
-    const { session_id, expires_at } = yield* _(
+    const { session_id, expires_at } = yield* pipe(
       session.create(user.user_id),
       Effect.mapError(() => error),
     );

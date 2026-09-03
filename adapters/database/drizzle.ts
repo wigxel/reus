@@ -4,7 +4,7 @@ import postgres from "postgres";
 import {
   DatabaseConnectionTypeId,
   createDatabaseResource,
-} from "~/layers/database";
+} from "~/contexts/database";
 
 // UNCOMMENT and add link to the drizzle schema
 // import * as schema from '~/migrations/schema.ts'

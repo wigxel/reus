@@ -1,8 +1,8 @@
 import { Effect, Layer, pipe } from "effect";
 import { lensPath, set } from "ramda";
 import { safeObj } from "~/adapters/utils";
-import { CollectionFilters } from "~/layers/search/collection";
-import type { FilterOrLogicOperator } from "~/layers/search/primitives";
+import { CollectionFilters } from "~/contexts/search/collection";
+import type { FilterOrLogicOperator } from "~/contexts/search/primitives";
 
 export const CollectionFilter = (payload: string) => {
   const parseFilters = pipe(

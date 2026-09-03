@@ -1,7 +1,7 @@
 import { fromUnixTime, getUnixTime, isPast } from "date-fns";
 import { Effect, type Record } from "effect";
 import { z } from "zod";
-import { HashingError, ReversibleHash } from "~/layers/encryption/reversible";
+import { HashingError, ReversibleHash } from "~/contexts/encryption/reversible";
 
 function createTimeBasedEncryption(
   data: Record<string, unknown>,

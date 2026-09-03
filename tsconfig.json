@@ -20,7 +20,7 @@
     }
   },
   "include": [
-    "layers/**/*",
+    "contexts/**/*",
     "adapters/search/**/*",
     "adapters/encryption/**/*",
     "adapters/repository/**/*",

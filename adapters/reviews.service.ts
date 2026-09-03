@@ -1,5 +1,4 @@
-import { Effect } from "effect";
-import { NoSuchElementException } from "effect/Cause";
+import { Cause, Effect } from "effect";
 import { ExpectedError, PermissionError } from "~/config/exceptions";
 import type {
   Comment,
@@ -48,7 +47,7 @@ export function updateReview(
   return Effect.gen(function* () {
     const reviewRepo = yield* ReviewRepo;
     const review = yield* reviewRepo.findOne(reviewId);
-    if (!review) yield* new NoSuchElementException("Review does not exist");
+    if (!review) yield* new Cause.NoSuchElementError("Review does not exist");
     if (review.userId !== userId)
       return yield* new PermissionError(
         "You are not authorized to make this request",
@@ -61,7 +60,7 @@ export function deleteReview(reviewId: string, userId: string) {
   return Effect.gen(function* () {
     const reviewRepo = yield* ReviewRepo;
     const review = yield* reviewRepo.findOne(reviewId);
-    if (!review) yield* new NoSuchElementException("Review does not exist");
+    if (!review) yield* new Cause.NoSuchElementError("Review does not exist");
     if (review.userId !== userId)
       return yield* new PermissionError(
         "You are not authorized to make this request",
@@ -94,7 +93,7 @@ export function updateComment(
     const comment = yield* commentRepo.findOne(commentId);
 
     if (!comment) {
-      yield* new NoSuchElementException("Comment doesn't exist");
+      yield* new Cause.NoSuchElementError("Comment doesn't exist");
     }
 
     if (comment.userId !== userId) {

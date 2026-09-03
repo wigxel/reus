@@ -4,12 +4,12 @@ import { Effect } from "effect";
 import { head, isArray } from "effect/Array";
 import { isNullish, isNumber, isObject, isString } from "effect/Predicate";
 import { SearchOps } from "~/adapters/search/sql-search-resolver";
-import { QueryError } from "~/layers/database";
+import { QueryError } from "~/contexts/database";
 import type {
   FilterOrLogicOperator,
   FilterQuery,
   PaginationQuery,
-} from "~/layers/search/primitives";
+} from "~/contexts/search/primitives";
 import {
   countWhere,
   queryFiltersToWhere,

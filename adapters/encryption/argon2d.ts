@@ -1,6 +1,6 @@
 import { Effect, Layer, pipe } from "effect";
 import { hashPassword as betterHash, verifyPassword as betterVerify } from "@better-auth/utils/password";
-import { PasswordHasher, PasswordHasherError } from "~/layers/encryption/password-hasher";
+import { PasswordHasher, PasswordHasherError } from "~/contexts/encryption/password-hasher";
 
 function hashPassword(password: string) {
   return Effect.promise(() => betterHash(password));

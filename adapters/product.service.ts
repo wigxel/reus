@@ -16,7 +16,7 @@ import { PaginationService } from "./pagination.service";
 export const createProduct = (
   input: z.infer<typeof createProductDto> & { ownerId: string },
 ) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const prodRepo = yield* ProductRepoLayer.Tag;
     const categoryRepo = yield* CategoryRepo;
     const productLocationRepo = yield*(ProductLocationRepoLayer.Tag);
@@ -52,7 +52,7 @@ export const createProduct = (
 };
 
 export const getProducts = (currentUserId: string = null) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const paginate = yield* PaginationService;
     const prodRepo = yield* ProductRepoLayer.Tag;
     //get all products count
@@ -71,7 +71,7 @@ export const getProductDetails = (
   productId: string,
   currentUserId: string = null,
 ) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const prodRepo = yield* ProductRepoLayer.Tag;
 
     const productDetails = yield* prodRepo.firstOrThrow(
@@ -91,7 +91,7 @@ export const editProduct = (
   productId: string,
   data: Partial<Product>,
 ) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const prodRepo = yield* ProductRepoLayer.Tag;
 
     yield* prodRepo.firstOrThrow(productId, currentId);
@@ -109,7 +109,7 @@ export const uploadProductImage = (data: {
   imageUrl: string | string[];
   currentUserId: string;
 }) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const prodRepo = yield* ProductRepoLayer.Tag;
     const prodImageRepo = yield* ProductImageRepoLayer.Tag;
 
@@ -138,7 +138,7 @@ export const deleteProductImage = (data: {
   imageId: number | number[];
   currentUserId: string;
 }) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const prodRepo = yield* ProductRepoLayer.Tag;
     const prodImageRepo = yield* ProductImageRepoLayer.Tag;
 
@@ -166,7 +166,7 @@ export const deleteProduct = (data: {
   productId: string;
   currentUserId: string;
 }) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const prodRepo = yield* ProductRepoLayer.Tag;
 
     yield* prodRepo.firstOrThrow(data.productId, data.currentUserId);
@@ -183,7 +183,7 @@ export const searchProduct = (
   data: z.infer<typeof productSearchDto>,
   currentUserId: string = null,
 ) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const prodRepo = yield* ProductRepoLayer.Tag;
     const paginate = yield* PaginationService;
 
@@ -205,7 +205,7 @@ export const productStatusToggle = (
   toggleType: TProductStatusToggle,
   currentUserId: string = null,
 ) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const prodRepo = yield*(ProductRepoLayer.Tag);
 
     const productDetails = yield*(prodRepo.getProductById(productId)).pipe(

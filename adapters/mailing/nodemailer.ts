@@ -1,10 +1,10 @@
 import { Effect, Layer } from "effect";
 import nodemailer from "nodemailer";
-import { MailTransporter, MailingConfig, MailingError } from "~/layers/mailing";
+import { MailTransporter, MailingConfig, MailingError } from "~/contexts/mailing";
 
 export const NodeMailerTransporter = Layer.succeed(MailTransporter, {
   send(params, content) {
-    return Effect.gen(function* (_) {
+    return Effect.gen(function* () {
       const mailingConfig = yield* MailingConfig;
 
       const transporter = nodemailer.createTransport({

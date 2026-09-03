@@ -2,12 +2,12 @@ import { Effect } from "effect";
 import type { InferResult } from "~/adapters/effect.util";
 import type { RepoModel } from "~/adapters/repository/repo.types";
 
-import { PaginationService } from "~/layers/search/pagination";
+import { PaginationService } from "~/contexts/search/pagination";
 import type {
   FilterOrLogicOperator,
   FilterQuery,
   PaginationQuery,
-} from "~/layers/search/primitives";
+} from "~/contexts/search/primitives";
 
 export function searchRepo<TRepo extends RepoModel, A, E, R>(
   repo: TRepo,

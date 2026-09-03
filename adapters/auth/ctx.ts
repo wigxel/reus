@@ -1,7 +1,6 @@
-import { Context, type Effect } from "effect";
-import type { UnknownException } from "effect/Cause";
+import { Cause, Context, type Effect } from "effect";
 
-type AuthError = UnknownException | Error;
+type AuthError = Cause.UnknownError | Error;
 
 interface AuthUserImpl {
   getUserRecord: (body: { email: string }) => Effect.Effect<

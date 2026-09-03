@@ -7,7 +7,7 @@ import { TaggedError } from "effect/Data";
  *
  * Usage:
  * ```ts
- * class A extends Context.Tag(DatabaseConnectionTypeId)(A, Interface) {}
+ * class A extends Context.Service<A, Interface>()(DatabaseConnectionTypeId) {}
  * ```
  **/
 export const DatabaseConnectionTypeId = "DatabaseConnection";

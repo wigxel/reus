@@ -7,7 +7,7 @@ export const getOrders = (
   currentUserId: string,
   column: "userId" | "sellerId",
 ) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const orderRepo = yield* OrderRepoLayer.Tag;
     //get the buyer/seller's orders
     const orders = yield* orderRepo.getOrderByUser({ [column]: currentUserId });
@@ -24,7 +24,7 @@ export const updateOrder = (
   },
   data: Partial<TOrderDetails>,
 ) => {
-  return Effect.gen(function* (_) {
+  return Effect.gen(function* () {
     const orderRepo = yield* OrderRepoLayer.Tag;
 
     //get the order by id

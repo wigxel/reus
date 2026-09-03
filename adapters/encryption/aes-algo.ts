@@ -1,7 +1,7 @@
 import { Config, Console, Effect, Layer, pipe } from "effect";
 import crypto from "uncrypto";
 import { arrayBufferToBase64, base64ToArrayBuffer } from "~/adapters/utils";
-import { HashingError, ReversibleHash } from "~/layers/encryption/reversible";
+import { HashingError, ReversibleHash } from "~/contexts/encryption/reversible";
 
 export class AESAlgo {
   private readonly key: CryptoKey;

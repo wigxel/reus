@@ -1,7 +1,7 @@
 import { Layer, Order } from "effect";
 import { FilterImpl } from "~/adapters/search/filter.service";
 import { safeInt } from "~/adapters/utils";
-import { PaginationService } from "~/layers/search/pagination";
+import { PaginationService } from "~/contexts/search/pagination";
 
 export const DEFAULT_PAGINATION_LIMIT = 25;
 

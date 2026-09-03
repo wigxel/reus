@@ -3,7 +3,7 @@ import type {
   FilterOrLogicOperator,
   LogicOperator,
   Operation,
-} from "~/layers/search/primitives";
+} from "~/contexts/search/primitives";
 import { safeObj } from "../utils";
 
 export interface WhereOperationResolver<T, TField> {
